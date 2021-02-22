@@ -7,7 +7,6 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import retrofit2.HttpException
-import ua.youdin.a2020giphyrestapi.data.Repository.Companion.NETWORK_PAGE_SIZE
 import ua.youdin.a2020giphyrestapi.data.giphyAPI.GiphyService
 import ua.youdin.a2020giphyrestapi.data.giphyAPI.asRepo
 import ua.youdin.a2020giphyrestapi.data.localDB.RepoDatabase
@@ -57,9 +56,12 @@ class GithubRemoteMediator(
             val apiResponse =
                 service.searchRepos(apiQuery, page * itemsPerPage, itemsPerPage).asRepo(apiQuery)
                     .also {
-                    Log.d("Tag", "\n______________Страница ____ $page _______________________\n")
-                    Log.d("Tag", it.toString())
-                }
+                        Log.d(
+                            "Tag",
+                            "\n______________Страница ____ $page _______________________\n"
+                        )
+                        Log.d("Tag", it.toString())
+                    }
 
             val repos = apiResponse//.items
             val endOfPaginationReached = repos.isEmpty()
@@ -91,7 +93,7 @@ class GithubRemoteMediator(
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { repo ->
                 // Get the remote keys of the last item retrieved
-                    repoDatabase.remoteKeysDao().remoteKeysRepoId(repo.id)
+                repoDatabase.remoteKeysDao().remoteKeysRepoId(repo.id)
             }
     }
 
@@ -101,7 +103,7 @@ class GithubRemoteMediator(
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { repo ->
                 // Get the remote keys of the first items retrieved
-                    repoDatabase.remoteKeysDao().remoteKeysRepoId(repo.id)
+                repoDatabase.remoteKeysDao().remoteKeysRepoId(repo.id)
             }
     }
 
@@ -112,7 +114,7 @@ class GithubRemoteMediator(
         // Get the item closest to the anchor position
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { repoId ->
-                    repoDatabase.remoteKeysDao().remoteKeysRepoId(repoId)
+                repoDatabase.remoteKeysDao().remoteKeysRepoId(repoId)
             }
         }
     }

@@ -5,28 +5,34 @@ import com.google.gson.annotations.SerializedName
 data class SearchResponse(
     @SerializedName("data") val items: List<Data> = emptyList(),
 )
+
 data class Data(
     @field:SerializedName("id") val id: String,  //This GIF's unique ID	"YsTs5ltWtEhnq"
     @field:SerializedName("title") val title: String = "",
     @field:SerializedName("images") val images: Images? = null
 )
+
 data class Images(
     @field:SerializedName("fixed_height") var fixed_height: FixedHeight? = null, //Data on versions of this GIF with a fixed height of 200 pixels. Good for mobile use.	url: string  The publicly-accessible direct URL for this GIF for this size of the GIF.	"https://media1.giphy.com/media/cZ7rmKfFYOvYI/200.gif"
     @field:SerializedName("fixed_height_small") val fixed_height_small: FixedHeightSmall?,
     @field:SerializedName("original") val original: Original?,
     @field:SerializedName("fixed_width_small") val fixed_width_small: FixedWidthSmall?,
 )
+
 data class FixedHeight(
     @field:SerializedName("url") val url: String = "",
 )
+
 data class FixedHeightSmall(
-    @field:SerializedName("url") val url: String="",
+    @field:SerializedName("url") val url: String = "",
 )
+
 data class Original(
-    @field:SerializedName("url") val url: String="",
+    @field:SerializedName("url") val url: String = "",
 )
+
 data class FixedWidthSmall(
-    @field:SerializedName("url") val url: String="",
+    @field:SerializedName("url") val url: String = "",
 )
 
 

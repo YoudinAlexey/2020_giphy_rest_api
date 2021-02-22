@@ -21,7 +21,9 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import ua.youdin.a2020giphyrestapi.R
+import ua.youdin.a2020giphyrestapi.ui.searsh.ReposAdapter.Companion.TypeLayout.VERTICAL
 import ua.youdin.a2020giphyrestapi.databinding.SearchRepositoriesBinding
+import ua.youdin.a2020giphyrestapi.ui.SharedSearchRepositoriesViewModel
 
 class SearchRepositories : Fragment(R.layout.search_repositories) {
 
@@ -49,7 +51,7 @@ class SearchRepositories : Fragment(R.layout.search_repositories) {
         savedInstanceState: Bundle?
     ): View {
         _binding = SearchRepositoriesBinding.inflate(inflater, container, false)
-        adapter = ReposAdapter(viewModel)
+        adapter = ReposAdapter(viewModel, VERTICAL)
         initAdapter()
         val query = savedInstanceState?.getString(LAST_SEARCH_QUERY) ?: DEFAULT_QUERY
         search(query)
@@ -146,6 +148,6 @@ class SearchRepositories : Fragment(R.layout.search_repositories) {
 
     companion object {
         private const val LAST_SEARCH_QUERY: String = "last_search_query"
-        private const val DEFAULT_QUERY = "Android"
+        private const val DEFAULT_QUERY = "Cat"
     }
 }

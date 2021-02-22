@@ -4,11 +4,12 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import ua.youdin.a2020giphyrestapi.data.localDB.model.Repo
-import ua.youdin.a2020giphyrestapi.databinding.RepoViewItemBinding
+import ua.youdin.a2020giphyrestapi.databinding.RepoViewItemVerticalBinding
+import ua.youdin.a2020giphyrestapi.ui.SharedSearchRepositoriesViewModel
 
 
-class RepoViewHolder(
-    private val binding: RepoViewItemBinding
+class RepoViewHolderVertical(
+    private val binding: RepoViewItemVerticalBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(repo: Repo, viewModelShared: SharedSearchRepositoriesViewModel) {
@@ -18,10 +19,10 @@ class RepoViewHolder(
     }
 
     companion object {
-        fun create(parent: ViewGroup): RepoViewHolder {
+        fun create(parent: ViewGroup): RepoViewHolderVertical {
             val layoutInflater = LayoutInflater.from(parent.context)
-            val binding = RepoViewItemBinding.inflate(layoutInflater, parent, false)
-            return RepoViewHolder(binding)
+            val binding = RepoViewItemVerticalBinding.inflate(layoutInflater, parent, false)
+            return RepoViewHolderVertical(binding)
         }
     }
 }

@@ -19,14 +19,14 @@
             android:paddingVertical="@dimen/row_item_margin_vertical"
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
             app:layout_constraintBottom_toTopOf="@+id/progress_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.196"
-            tools:listitem="@layout/repo_view_item" />
+            app:spanCount="2"
+            tools:listitem="@layout/repo_view_item_vertical" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout"
@@ -54,26 +54,26 @@
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progress_bar"
-            android:indeterminate="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:hideAnimationBehavior="outward"
             app:layout_constraintBottom_toTopOf="@+id/input_layout"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:trackCornerRadius="40dp"
             app:showAnimationBehavior="outward"
-            app:hideAnimationBehavior="outward" />
+            app:trackCornerRadius="40dp" />
 
         <Button
             android:id="@+id/retry_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/retry"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

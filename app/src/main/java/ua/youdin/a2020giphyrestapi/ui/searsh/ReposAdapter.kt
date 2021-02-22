@@ -5,20 +5,29 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import ua.youdin.a2020giphyrestapi.data.localDB.model.Repo
+import ua.youdin.a2020giphyrestapi.ui.SharedSearchRepositoriesViewModel
 
 
 class ReposAdapter(
-    private val viewModelShared: SharedSearchRepositoriesViewModel
+    private val viewModelShared: SharedSearchRepositoriesViewModel,
+    private val type: TypeLayout
 ) : PagingDataAdapter<Repo, ViewHolder>(REPO_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return RepoViewHolder.create(parent)
+        return when (type) {
+            TypeLayout.VERTICAL -> RepoViewHolderVertical.create(parent)
+            TypeLayout.HORIZONTAL -> RepoViewHolderHorizontal.create(parent)
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val repoItem = getItem(position)
         if (repoItem != null) {
-            (holder as RepoViewHolder).bind(repoItem, viewModelShared)
+            when (type) {
+                TypeLayout.VERTICAL -> (holder as RepoViewHolderVertical).bind(repoItem, viewModelShared)
+                TypeLayout.HORIZONTAL ->(holder as RepoViewHolderHorizontal).bind(repoItem)
+            }
+
         }
     }
 
@@ -30,5 +39,11 @@ class ReposAdapter(
             override fun areContentsTheSame(oldItem: Repo, newItem: Repo): Boolean =
                 oldItem == newItem
         }
+
+        enum class TypeLayout {
+            VERTICAL, HORIZONTAL
+        }
     }
 }
+
+

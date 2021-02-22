@@ -12,12 +12,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import ua.youdin.a2020giphyrestapi.R
 import ua.youdin.a2020giphyrestapi.databinding.ActivityMainBinding
-import ua.youdin.a2020giphyrestapi.ui.searsh.SharedSearchRepositoriesViewModel
-
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-    private lateinit var appBarConfiguration : AppBarConfiguration
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +28,10 @@ class MainActivity : AppCompatActivity() {
         val navController = host.navController
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-        val viewModel = getViewModel<SharedSearchRepositoriesViewModel>()
+        getViewModel<SharedSearchRepositoriesViewModel>()
     }
-    override fun onSupportNavigateUp() : Boolean {
+
+    override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()

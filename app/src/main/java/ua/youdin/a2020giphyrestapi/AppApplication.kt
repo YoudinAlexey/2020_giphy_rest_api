@@ -12,7 +12,7 @@ import org.koin.dsl.module
 import ua.youdin.a2020giphyrestapi.data.Repository
 import ua.youdin.a2020giphyrestapi.data.giphyAPI.GiphyService
 import ua.youdin.a2020giphyrestapi.data.localDB.RepoDatabase
-import ua.youdin.a2020giphyrestapi.ui.searsh.SharedSearchRepositoriesViewModel
+import ua.youdin.a2020giphyrestapi.ui.SharedSearchRepositoriesViewModel
 
 
 @KoinApiExtension
@@ -55,7 +55,6 @@ class AppApplication : Application() {
                 get(qualifier = named("DataBase"))
             )
         }
-
         viewModel { SharedSearchRepositoriesViewModel(get(qualifier = named("Repository"))) }
     }
 

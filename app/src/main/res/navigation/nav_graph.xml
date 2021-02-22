@@ -11,7 +11,11 @@
         tools:layout="@layout/search_repositories" >
         <action
             android:id="@+id/action_searchRepositories2_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -22,6 +26,10 @@
             app:argType="ua.youdin.a2020giphyrestapi.data.localDB.model.Repo" />
         <action
             android:id="@+id/action_detailFragment_to_searchRepositories2"
-            app:destination="@id/searchRepositories2" />
+            app:destination="@id/searchRepositories2"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 </navigation>

@@ -1,4 +1,4 @@
-package ua.youdin.a2020giphyrestapi.ui.searsh
+package ua.youdin.a2020giphyrestapi.ui
 
 import android.view.View
 import androidx.lifecycle.ViewModel
@@ -9,6 +9,7 @@ import androidx.paging.cachedIn
 import kotlinx.coroutines.flow.Flow
 import ua.youdin.a2020giphyrestapi.data.Repository
 import ua.youdin.a2020giphyrestapi.data.localDB.model.Repo
+import ua.youdin.a2020giphyrestapi.ui.searsh.SearchRepositoriesDirections
 
 
 class SharedSearchRepositoriesViewModel(private val repository: Repository) : ViewModel() {
@@ -23,11 +24,12 @@ class SharedSearchRepositoriesViewModel(private val repository: Repository) : Vi
         }
         currentQueryValue = queryString
         val newResult: Flow<PagingData<Repo>> = repository.getSearchResultStream(queryString)
-        .cachedIn(viewModelScope)
+            .cachedIn(viewModelScope)
         currentSearchResult = newResult
         return newResult
     }
-    fun onClick (view: View, repo:Repo){
+
+    fun onClick(view: View, repo: Repo) {
 //        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(repo.urlOriginal))
 //        view.context.startActivity(intent)
         val action = SearchRepositoriesDirections.actionSearchRepositories2ToDetailFragment(repo)
