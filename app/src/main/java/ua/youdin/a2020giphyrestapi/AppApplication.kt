@@ -12,7 +12,7 @@ import org.koin.dsl.module
 import ua.youdin.a2020giphyrestapi.data.Repository
 import ua.youdin.a2020giphyrestapi.data.giphyAPI.GiphyService
 import ua.youdin.a2020giphyrestapi.data.localDB.RepoDatabase
-import ua.youdin.a2020giphyrestapi.ui.searsh.SearchRepositoriesViewModel
+import ua.youdin.a2020giphyrestapi.ui.searsh.SharedSearchRepositoriesViewModel
 
 
 @KoinApiExtension
@@ -30,7 +30,7 @@ class AppApplication : Application() {
     private fun addTheme() {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         AppCompatDelegate.setDefaultNightMode(
-            AppCompatDelegate.MODE_NIGHT_NO
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
         )
     }
 
@@ -56,7 +56,7 @@ class AppApplication : Application() {
             )
         }
 
-        viewModel { SearchRepositoriesViewModel(get(qualifier = named("Repository"))) }
+        viewModel { SharedSearchRepositoriesViewModel(get(qualifier = named("Repository"))) }
     }
 
 }

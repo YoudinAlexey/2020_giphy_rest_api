@@ -1,18 +1,17 @@
 package ua.youdin.a2020giphyrestapi.ui.searsh
 
+import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.findNavController
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import kotlinx.coroutines.flow.Flow
 import ua.youdin.a2020giphyrestapi.data.Repository
 import ua.youdin.a2020giphyrestapi.data.localDB.model.Repo
 
-/**
- * ViewModel for the [SearchRepositoriesActivity] screen.
- * The ViewModel works with the [Repository] to get the data.
- */
-class SearchRepositoriesViewModel(private val repository: Repository) : ViewModel() {
+
+class SharedSearchRepositoriesViewModel(private val repository: Repository) : ViewModel() {
     private var currentQueryValue: String? = null
 
     private var currentSearchResult: Flow<PagingData<Repo>>? = null
@@ -27,5 +26,11 @@ class SearchRepositoriesViewModel(private val repository: Repository) : ViewMode
         .cachedIn(viewModelScope)
         currentSearchResult = newResult
         return newResult
+    }
+    fun onClick (view: View, repo:Repo){
+//        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(repo.urlOriginal))
+//        view.context.startActivity(intent)
+        val action = SearchRepositoriesDirections.actionSearchRepositories2ToDetailFragment(repo)
+        view.findNavController().navigate(action)
     }
 }

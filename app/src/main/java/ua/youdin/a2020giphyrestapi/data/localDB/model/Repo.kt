@@ -1,13 +1,19 @@
 package ua.youdin.a2020giphyrestapi.data.localDB.model
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = "repos")
 data class Repo(
-    @PrimaryKey @field:SerializedName("id") val id: String,  //This GIF's unique ID	"YsTs5ltWtEhnq"
+    @PrimaryKey val id: String,  //This GIF's unique ID	"YsTs5ltWtEhnq"
     var request: String = "",
-    @field:SerializedName("title") val title: String="",
-    @field:SerializedName("url") val url: String, //The unique URL for this GIF	"http://giphy.com/gifs/confused-flying-YsTs5ltWtEhnq"
-)
+    val title: String = "",
+    val urlFixedHeight: String = "",
+    val urlFixedHeightSmall: String = "",
+    val urlOriginal: String = "",
+    val urlFixedWidthSmall: String = "",
+) : Parcelable

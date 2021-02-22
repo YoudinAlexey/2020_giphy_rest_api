@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import ua.youdin.a2020giphyrestapi.data.localDB.model.Repo
 
 
-class ReposAdapter : PagingDataAdapter<Repo, ViewHolder>(REPO_COMPARATOR) {
+class ReposAdapter(
+    private val viewModelShared: SharedSearchRepositoriesViewModel
+) : PagingDataAdapter<Repo, ViewHolder>(REPO_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return RepoViewHolder.create(parent)
@@ -16,7 +18,7 @@ class ReposAdapter : PagingDataAdapter<Repo, ViewHolder>(REPO_COMPARATOR) {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val repoItem = getItem(position)
         if (repoItem != null) {
-            (holder as RepoViewHolder).bind(repoItem)
+            (holder as RepoViewHolder).bind(repoItem, viewModelShared)
         }
     }
 

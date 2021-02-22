@@ -9,6 +9,7 @@ import androidx.room.withTransaction
 import retrofit2.HttpException
 import ua.youdin.a2020giphyrestapi.data.Repository.Companion.NETWORK_PAGE_SIZE
 import ua.youdin.a2020giphyrestapi.data.giphyAPI.GiphyService
+import ua.youdin.a2020giphyrestapi.data.giphyAPI.asRepo
 import ua.youdin.a2020giphyrestapi.data.localDB.RepoDatabase
 import ua.youdin.a2020giphyrestapi.data.localDB.model.RemoteKeys
 import ua.youdin.a2020giphyrestapi.data.localDB.model.Repo
@@ -54,18 +55,13 @@ class GithubRemoteMediator(
         try {
             val itemsPerPage = state.config.pageSize
             val apiResponse =
-                service.searchRepos(apiQuery, page * itemsPerPage, itemsPerPage)
-                    .apply {
-                        // after load add corect request fild
-                        this.items.forEach {
-                            it.request = apiQuery
-                        }
-                    }.also {
+                service.searchRepos(apiQuery, page * itemsPerPage, itemsPerPage).asRepo(apiQuery)
+                    .also {
                     Log.d("Tag", "\n______________Страница ____ $page _______________________\n")
                     Log.d("Tag", it.toString())
                 }
 
-            val repos = apiResponse.items
+            val repos = apiResponse//.items
             val endOfPaginationReached = repos.isEmpty()
             repoDatabase.withTransaction {
                 // clear all tables in the database

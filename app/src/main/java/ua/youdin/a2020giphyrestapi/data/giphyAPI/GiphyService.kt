@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
+import ua.youdin.a2020giphyrestapi.data.giphyAPI.model.SearchResponse
 
 //    https://api.giphy.com/v1/gifs/search?api_key=YGHnKKBGSydS6nSt6WAoUcICWwmgCfvL&q=car&limit=2&offset=0&rating=g&lang=en
 //    https://api.giphy.com/v1/gifs/search?api_key=YGHnKKBGSydS6nSt6WAoUcICWwmgCfvL&q=car&limit=1&offset=1&rating=g&lang=en
@@ -18,7 +19,7 @@ interface GiphyService {
         @Query("q") query: String,
         @Query("offset") offset: Int,
         @Query("limit") itemsPerPage: Int,
-    ): RepoSearchResponse
+    ): SearchResponse
 
     companion object {
         private val BASE_URL =
@@ -26,7 +27,7 @@ interface GiphyService {
 
         fun create(): GiphyService {
             val logger = HttpLoggingInterceptor()
-            logger.level = Level.BASIC
+            logger.level = Level.BODY
 
             val client = OkHttpClient.Builder()
                 .addInterceptor(logger)

@@ -1,12 +1,40 @@
 package ua.youdin.a2020giphyrestapi.data.giphyAPI.model
 
+import com.google.gson.annotations.SerializedName
+
+data class SearchResponse(
+    @SerializedName("data") val items: List<Data> = emptyList(),
+)
+data class Data(
+    @field:SerializedName("id") val id: String,  //This GIF's unique ID	"YsTs5ltWtEhnq"
+    @field:SerializedName("title") val title: String = "",
+    @field:SerializedName("images") val images: Images? = null
+)
+data class Images(
+    @field:SerializedName("fixed_height") var fixed_height: FixedHeight? = null, //Data on versions of this GIF with a fixed height of 200 pixels. Good for mobile use.	url: string  The publicly-accessible direct URL for this GIF for this size of the GIF.	"https://media1.giphy.com/media/cZ7rmKfFYOvYI/200.gif"
+    @field:SerializedName("fixed_height_small") val fixed_height_small: FixedHeightSmall?,
+    @field:SerializedName("original") val original: Original?,
+    @field:SerializedName("fixed_width_small") val fixed_width_small: FixedWidthSmall?,
+)
+data class FixedHeight(
+    @field:SerializedName("url") val url: String = "",
+)
+data class FixedHeightSmall(
+    @field:SerializedName("url") val url: String="",
+)
+data class Original(
+    @field:SerializedName("url") val url: String="",
+)
+data class FixedWidthSmall(
+    @field:SerializedName("url") val url: String="",
+)
+
 
 //data class GiphiDataModel(
 //    var `data`: List<Data>?,
 //    var meta: Meta?,
 //    var pagination: Pagination
 //)
-//
 //data class Data(
 //    var analytics: Analytics?,
 //    var analytics_response_payload: String?,
@@ -36,11 +64,11 @@ package ua.youdin.a2020giphyrestapi.data.giphyAPI.model
 //    var status: Int?
 //)
 //
-data class Pagination(
-    val count: Int?, //Total number of items returned.
-    val offset: Int?,  //Position in pagination.
-    val total_count: Int?  //Total number of items available (not returned on every endpoint).
-)
+//data class Pagination(
+//    val count: Int?, //Total number of items returned.
+//    val offset: Int?,  //Position in pagination.
+//    val total_count: Int?  //Total number of items available (not returned on every endpoint).
+//)
 //
 //data class Analytics(
 //    var onclick: Onclick?,
@@ -54,7 +82,7 @@ data class Pagination(
 //    var downsized_medium: DownsizedMedium?,
 //    var downsized_small: DownsizedSmall?,
 //    var downsized_still: DownsizedStill?,
-//    var fixed_height: FixedHeight?, //Data on versions of this GIF with a fixed height of 200 pixels. Good for mobile use.	url: string  The publicly-accessible direct URL for this GIF for this size of the GIF.	"https://media1.giphy.com/media/cZ7rmKfFYOvYI/200.gif"
+//    var fixed_height: FixedHeight? = null, //Data on versions of this GIF with a fixed height of 200 pixels. Good for mobile use.	url: string  The publicly-accessible direct URL for this GIF for this size of the GIF.	"https://media1.giphy.com/media/cZ7rmKfFYOvYI/200.gif"
 //    var fixed_height_downsampled: FixedHeightDownsampled?,
 //    var fixed_height_small: FixedHeightSmall?,
 //    var fixed_height_small_still: FixedHeightSmallStill?,
@@ -72,6 +100,7 @@ data class Pagination(
 //    var preview_gif: PreviewGif?,
 //    var preview_webp: PreviewWebp?
 //)
+
 //
 //data class Onclick(
 //    var url: String?
@@ -126,18 +155,18 @@ data class Pagination(
 //    var url: String?,
 //    var width: String?
 //)
-//
+
 //data class FixedHeight(
 //    var height: String?,
 //    var mp4: String?,
 //    var mp4_size: String?,
 //    var size: String?,
-//    var url: String?,
+//    var url: String = "",
 //    var webp: String?,
 //    var webp_size: String?,
 //    var width: String?
 //)
-//
+
 //data class FixedHeightDownsampled(
 //    var height: String?,
 //    var size: String?,

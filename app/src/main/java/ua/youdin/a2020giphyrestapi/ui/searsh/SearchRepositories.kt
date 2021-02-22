@@ -2,28 +2,34 @@ package ua.youdin.a2020giphyrestapi.ui.searsh
 
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.DividerItemDecoration
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import ua.youdin.a2020giphyrestapi.databinding.ActivitySearchRepositoriesBinding
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import ua.youdin.a2020giphyrestapi.R
+import ua.youdin.a2020giphyrestapi.databinding.SearchRepositoriesBinding
 
-class SearchRepositoriesActivity : AppCompatActivity() {
+class SearchRepositories : Fragment(R.layout.search_repositories) {
 
-    private lateinit var binding: ActivitySearchRepositoriesBinding
-    private val viewModel by viewModel<SearchRepositoriesViewModel>()
-    private val adapter = ReposAdapter()
+    private var _binding: SearchRepositoriesBinding? = null
+    private val binding get()=_binding!!
+    private val viewModel by sharedViewModel<SharedSearchRepositoriesViewModel>()
+    private lateinit var adapter: ReposAdapter
+
 
     private var searchJob: Job? = null
 
@@ -37,21 +43,20 @@ class SearchRepositoriesActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivitySearchRepositoriesBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
-
-        // add dividers between RecyclerView's row items
-        val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        binding.list.addItemDecoration(decoration)
-
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = SearchRepositoriesBinding.inflate(inflater, container, false)
+        adapter = ReposAdapter(viewModel)
         initAdapter()
         val query = savedInstanceState?.getString(LAST_SEARCH_QUERY) ?: DEFAULT_QUERY
         search(query)
         initSearch(query)
+        binding.lifecycleOwner = this
         binding.retryButton.setOnClickListener { adapter.retry() }
+        return binding.root
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -61,29 +66,41 @@ class SearchRepositoriesActivity : AppCompatActivity() {
 
     private fun initAdapter() {
         binding.list.adapter = adapter.withLoadStateHeaderAndFooter(
-                header = ReposLoadStateAdapter { adapter.retry() },
-                footer = ReposLoadStateAdapter { adapter.retry() }
+            header = ReposLoadStateAdapter { adapter.retry() },
+            footer = ReposLoadStateAdapter { adapter.retry() }
         )
         adapter.addLoadStateListener { loadState ->
             // Only show the list if refresh succeeds.
-            binding.list.isVisible = loadState.source.refresh is LoadState.NotLoading
+//            binding.list.isVisible = loadState.source.refresh is LoadState.NotLoading
             // Show loading spinner during initial load or refresh.
-            binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+            if (loadState.source.refresh is LoadState.Loading)
+                binding.progressBar.show()
+            else
+                binding.progressBar.hide()
             // Show the retry state if initial load or refresh fails.
             binding.retryButton.isVisible = loadState.source.refresh is LoadState.Error
 
             // Toast on any error, regardless of whether it came from RemoteMediator or PagingSource
             val errorState = loadState.source.append as? LoadState.Error
-                    ?: loadState.source.prepend as? LoadState.Error
-                    ?: loadState.append as? LoadState.Error
-                    ?: loadState.prepend as? LoadState.Error
+                ?: loadState.source.prepend as? LoadState.Error
+                ?: loadState.append as? LoadState.Error
+                ?: loadState.prepend as? LoadState.Error
             errorState?.let {
                 Toast.makeText(
-                        this,
-                        "\uD83D\uDE28 Wooops ${it.error}",
-                        Toast.LENGTH_LONG
+                    requireContext(),
+                    "\uD83D\uDE28 Wooops ${it.error}",
+                    Toast.LENGTH_LONG
                 ).show()
             }
+        }
+        binding.progressBar.apply {
+            setIndicatorColor(
+                ContextCompat.getColor(context, R.color.colorProgresBarOne),
+                ContextCompat.getColor(context, R.color.colorProgresBarTwo),
+                ContextCompat.getColor(context, R.color.colorProgresBarThre)
+            )
+            indeterminateAnimationType =
+                LinearProgressIndicator.INDETERMINATE_ANIMATION_TYPE_DISJOINT
         }
 
     }
@@ -111,11 +128,11 @@ class SearchRepositoriesActivity : AppCompatActivity() {
         // Scroll to top when the list is refreshed from network.
         lifecycleScope.launch {
             adapter.loadStateFlow
-                    // Only emit when REFRESH LoadState for RemoteMediator changes.
-                    .distinctUntilChangedBy { it.refresh }
-                    // Only react to cases where Remote REFRESH completes i.e., NotLoading.
-                    .filter { it.refresh is LoadState.NotLoading }
-                    .collect { binding.list.scrollToPosition(0) }
+                // Only emit when REFRESH LoadState for RemoteMediator changes.
+                .distinctUntilChangedBy { it.refresh }
+                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect { binding.list.scrollToPosition(0) }
         }
     }
 
