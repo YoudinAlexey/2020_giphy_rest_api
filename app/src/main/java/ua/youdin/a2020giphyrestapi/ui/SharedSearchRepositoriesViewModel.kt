@@ -8,6 +8,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import ua.youdin.a2020giphyrestapi.R
 import ua.youdin.a2020giphyrestapi.data.Repository
 import ua.youdin.a2020giphyrestapi.data.localDB.model.Repo
@@ -36,5 +37,10 @@ class SharedSearchRepositoriesViewModel(private val repository: Repository) : Vi
 //        view.context.startActivity(intent)
         val action = SearchRepositoriesDirections.actionSearchRepositories2ToDetailFragment(repo, position)
         view.findNavController().navigate(action)
+    }
+    fun deletePosition(id:String){
+        viewModelScope.launch {
+            repository.deletePosition(id)
+        }
     }
 }

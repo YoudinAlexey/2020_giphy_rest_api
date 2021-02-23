@@ -5,7 +5,9 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import ua.youdin.a2020giphyrestapi.data.giphyAPI.GiphyService
 import ua.youdin.a2020giphyrestapi.data.localDB.RepoDatabase
 import ua.youdin.a2020giphyrestapi.data.localDB.model.Repo
@@ -31,6 +33,11 @@ class Repository(
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow
+    }
+    suspend fun deletePosition(id:String){
+        withContext(Dispatchers.IO){
+            database.reposDao().deletePosition(id)
+        }
     }
 
     companion object {

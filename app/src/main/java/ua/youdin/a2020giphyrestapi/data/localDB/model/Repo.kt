@@ -15,4 +15,5 @@ data class Repo(
     val urlFixedHeightSmall: String = "",
     val urlOriginal: String = "",
     val urlFixedWidthSmall: String = "",
+    val isDelete:Boolean = false,
 ) : Parcelable

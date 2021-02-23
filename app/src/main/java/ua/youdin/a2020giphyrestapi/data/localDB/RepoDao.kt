@@ -12,9 +12,14 @@ interface RepoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(repos: List<Repo>)
 
-    @Query("SELECT * FROM repos WHERE request LIKE :queryString OR title LIKE :queryString")
+//    SELECT * FROM repos WHERE (request LIKE :queryString OR title LIKE :queryString) AND isDelete LIKE true;
+//    @Query("SELECT * FROM repos WHERE request LIKE :queryString OR title LIKE :queryString")
+    @Query("SELECT * FROM repos WHERE (request LIKE :queryString OR title LIKE :queryString) AND isDelete = 0")
     fun reposByName(queryString: String): PagingSource<Int, Repo>
 
     @Query("DELETE FROM repos")
     suspend fun clearRepos()
+
+    @Query("UPDATE repos SET isDelete = 1 WHERE id = :id")
+    fun deletePosition(id:String)
 }
