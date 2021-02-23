@@ -8,7 +8,9 @@
         <variable
             name="repo"
             type="ua.youdin.a2020giphyrestapi.data.localDB.model.Repo" />
-
+        <variable
+            name="position"
+            type="Integer" />
         <variable
             name="viewmodel"
             type="ua.youdin.a2020giphyrestapi.ui.SharedSearchRepositoriesViewModel" />
@@ -28,7 +30,7 @@
             android:checkable="true"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="@{(view) -> viewmodel.onClick(view, repo)}"
+            android:onClick="@{(view) -> viewmodel.onClick(view, repo, position)}"
             app:cardElevation="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"

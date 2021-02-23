@@ -6,7 +6,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.flow.Flow
+import ua.youdin.a2020giphyrestapi.R
 import ua.youdin.a2020giphyrestapi.data.Repository
 import ua.youdin.a2020giphyrestapi.data.localDB.model.Repo
 import ua.youdin.a2020giphyrestapi.ui.searsh.SearchRepositoriesDirections
@@ -29,10 +31,10 @@ class SharedSearchRepositoriesViewModel(private val repository: Repository) : Vi
         return newResult
     }
 
-    fun onClick(view: View, repo: Repo) {
+    fun onClick(view: View, repo: Repo, position: Int) {
 //        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(repo.urlOriginal))
 //        view.context.startActivity(intent)
-        val action = SearchRepositoriesDirections.actionSearchRepositories2ToDetailFragment(repo)
+        val action = SearchRepositoriesDirections.actionSearchRepositories2ToDetailFragment(repo, position)
         view.findNavController().navigate(action)
     }
 }

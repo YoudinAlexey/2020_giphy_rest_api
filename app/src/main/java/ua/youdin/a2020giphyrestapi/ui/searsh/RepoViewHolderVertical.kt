@@ -12,7 +12,8 @@ class RepoViewHolderVertical(
     private val binding: RepoViewItemVerticalBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(repo: Repo, viewModelShared: SharedSearchRepositoriesViewModel) {
+    fun bind(repo: Repo, viewModelShared: SharedSearchRepositoriesViewModel, position:Int) {
+        binding.position = position
         binding.viewmodel = viewModelShared
         binding.repo = repo
         binding.executePendingBindings()

@@ -24,7 +24,7 @@ class ReposAdapter(
         val repoItem = getItem(position)
         if (repoItem != null) {
             when (type) {
-                TypeLayout.VERTICAL -> (holder as RepoViewHolderVertical).bind(repoItem, viewModelShared)
+                TypeLayout.VERTICAL -> (holder as RepoViewHolderVertical).bind(repoItem, viewModelShared, position)
                 TypeLayout.HORIZONTAL ->(holder as RepoViewHolderHorizontal).bind(repoItem)
             }
 

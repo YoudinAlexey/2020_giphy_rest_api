@@ -30,6 +30,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     private val viewModel by sharedViewModel<SharedSearchRepositoriesViewModel>()
     private lateinit var adapter: ReposAdapter
     private var searchJob: Job? = null
+    private var position:Int = 0
 
     private fun search(query: String) {
         searchJob?.cancel()
@@ -37,6 +38,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             viewModel.searchRepo(query).collectLatest {
                 adapter.submitData(it)
             }
+
         }
     }
 
@@ -46,6 +48,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         val repo: Repo = DetailFragmentArgs.fromBundle(requireArguments()).repo
+        position = DetailFragmentArgs.fromBundle(requireArguments()).position as Int
         binding.repo = repo
         binding.lifecycleOwner = this
         adapter = ReposAdapter(viewModel, HORIZONTAL)
@@ -58,7 +61,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 .distinctUntilChangedBy { it.refresh }
                 // Only react to cases where Remote REFRESH completes i.e., NotLoading.
                 .filter { it.refresh is LoadState.NotLoading }
-                .collect { binding.qlist.scrollToPosition(0) }
+                .collect { binding.qlist.scrollToPosition(position) }
         }
         return binding.root
     }
